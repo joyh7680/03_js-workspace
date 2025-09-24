@@ -154,10 +154,8 @@ console.log(flag, typeof(flag));
   3. undefined는 자바스크립트 엔진이 변수를 초기화 할 때 사용하는 값 
 */
 
-
 var undef; //값을 대입하지 않고 변수를 만들겠다 변수선언
 console.log(undef, typeof(undef)); //undef 변수와 그 타입 출력
-
 
 /*
   * null (undefined와 비슷한 맥락)
@@ -232,6 +230,7 @@ console.log(bigInt, typeof(bigInt)); //bigInt 변수와 그 타입 출력
  *       → 단점 : 신뢰성이 떨어짐 (개발자 의도와 상관없이 타입이 변경될 수 있음)
  *                => 데이터 타입 체크를 매번 해야됨 
  *                => 번거로움, 코드의 양 증가
+ * 
  */
 
 var test;
