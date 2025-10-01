@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 조작 실습 미션</title>
+
+    <!-- ### 미션 내용
+
+아래 코드의 script를 채워 각 미션을 해결해 보세요
+
+- 미션 1 : ID가 'message'인 요소를 선택하여 콘솔에 출력
+- 미션 2 : 모든 .item 클래스 요소들을 선택하여 콘솔에 출력
+- 미션 3 : 모든 li 요소들을 선택하여 콘솔에 출력 -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .mission-box {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        ul {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            list-style-type: decimal;
+        }
+        
+        #message {
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .reset-btn {
+            background-color: #6c757d;
+        }
+        
+        .reset-btn:hover {
+            background-color: #545b62;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="mission-box">
+        <h1 class="mission-title">🎯 DOM 요소 선택 실습 미션</h1>
+        
+        <div class="item">첫 번째 아이템</div>
+        <div class="item">두 번째 아이템</div>
+        <div class="item">세 번째 아이템</div>
+        
+        <ul>
+            <li>첫 번째 목록</li>
+            <li>두 번째 목록</li>
+            <li>세 번째 목록</li>
+        </ul>
+        
+        <div id="message">여기에 메시지가 표시됩니다</div>
+        
+        <div class="button-group">
+            <button onclick="selectById()">ID 선택</button>
+            <button onclick="selectByClass()">클래스 선택</button>
+            <button onclick="selectByTag()">태그 선택</button>
+        </div>
+    </div>
+
+    <!-- <script>
+        // 미션 1: ID가 'message'인 요소를 선택하여 콘솔에 출력
+        function selectById() {
+
+        }
+        
+        // 미션 2: 모든 .item 클래스 요소들을 선택하여 콘솔에 출력
+        function selectByClass() {
+
+        }
+        
+        // 미션 3: 모든 li 요소들을 선택하여 콘솔에 출력
+        function selectByTag() {
+            
+        }
+        
+    </script> -->
+
+    <script>
+      function selectById() {
+          const messageEl = document.getElementById('message');   //ID가 message인 단일 요소를 선택합니다.
+          console.log(messageEl);
+      }
+
+      function selectByClass() {
+          const items = document.getElementsByClassName('item'); // .item 클래스를 가진 모든 요소를 선택합니다.
+          console.log(items);
+      }
+
+      //  function selectByTag() {
+      //   const tags = document.getElementsByTagName('ul>li'); //이게 틀린 이유는 getElementsByTagName()이 태그 이름만 받을 수 있기 때문이에요.
+      //   console.log(tags);
+            
+      // }
+
+      function selectByTag() {
+        const listItems = document.getElementsByTagName('li'); //모든 <li> 요소를 선택합니다.
+        console.log(listItems); //반환값은 HTMLCollection이며, 콘솔에 출력하면 3개의 <li> 목록이 나옵니다.
+      }
+       //참고: 마찬가지로 document.querySelectorAll('li')도 가능하고 NodeList를 반환
+
+
+
+    </script>
+
+
+</body>
+</html>
