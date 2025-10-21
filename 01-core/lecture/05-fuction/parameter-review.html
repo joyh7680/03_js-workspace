@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매개변수(parameter)와 인자(전달값)</title>
+</head>
+
+<script>
+  function parameterTest(param){
+    console.log(param);
+  }
+
+  parameterTest('hellow'); //hellow 출력
+  parameterTest(10); //10출력
+  parameterTest('a','b','c'); //a출력 , 초과된 인자는 무시됌
+  parameterTest();//undefined 출력 , 전달된 인자가 없음 → param = undefined
+
+</script>
+<body>
+  
+</body>
+</html>

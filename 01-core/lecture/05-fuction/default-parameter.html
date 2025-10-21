@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기본 매개변수 (default parameter) </title>
+</head>
+
+<script>
+  function defaultTest(x=1, y=2){
+    console.log(`x: ${x}, y:${y}`); //error
+  }
+
+defaultTest(10, 20); //x: 10, y:20 출력
+//값이 10, 20 넣어짐
+// 위로 올라가서 console.log 형식으로 출력 확인
+
+defaultTest(100); //x: 100, y:2 출력
+
+</script>
+<body>
+  
+</body>
+</html>

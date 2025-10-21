@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react es</title>
+</head>
+<body>
+  <!-- 참고사이트 : https://www.w3schools.com/react/react_es6.asp  -->
+
+  <script>
+    //변수 선언 키워드 - var, let, const
+
+    
+    {
+      // * var
+      var userId; // 할당전 - undefined
+      var userId; // 재선언 - 가능 (동일 스코프에서 중복 선언 허용, 좋지 않음) 
+      var userId = "user01"; // 할당
+      userId = "user02"; // 재할당 - 가능 (변수 값 변경 가능)
+
+      function varScope() {
+        if(true) {
+          var userAge = 10;
+        }
+        console.log(userAge); // 스코프 -  함수 스코프 - (선언된 위치가 함수 내 에서 어디서든 사용 가능)
+      }
+    }
+    
+
+    {
+      // * let (ES6)
+      let userId; // 할당전 - undefined
+      // let userId; // 재선언 - 불가능 (동일 스코프에서 중복 선언 불가) 
+      userId = "user01"; // 할당
+      userId = "user02"; // 재할당 - 가능 (변수 값 변경 가능)
+      function letScope(){
+        if(ture) {
+          let userAge = 10; 
+        }
+        console.log(userAge); // 스코프 - 블록 스코프 - (선언된 위치의 블록 내에서만 사용 가능)
+      }
+
+    }
+
+
+  </script>
+  
+</body>
+</html>

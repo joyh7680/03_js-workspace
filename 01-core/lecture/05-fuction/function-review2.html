@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=
+  , initial-scale=1.0">
+  <title>함수 표현식</title>
+</head>
+
+<script>
+  hi('황지원'); // 함수표현식은 호이스팅 되지 않음,  
+  // `hi`는 아직 값이 없음.
+  // 바로 에러 발생
+  const hi = function (name) {  // 변수 `hi`만 호이스팅되지만, 값은 할당되기 전까지 **TDZ(Temporal Dead Zone, 일시적 사각지대)** 상태라 접근 불가.
+  // `const hi` 변수가 선언은 되지만 아직 초기화되지 않음.
+  // 변수는 변수일뿐!
+    console.log(`${name}님 안녕하세요`);
+  };
+  console.log(hi, typeof(hi)); //자바스크립트는 에러가 발생하면 그 즉시 멈추기 때문에 여기도 출력x
+  
+  
+
+  /*
+👉 정리하면:
+* `const`로 만든 함수 표현식은 **호출을 반드시 정의 이후에 해야 한다.**
+* 위 코드는 에러 때문에 `"황지원님 안녕하세요"`가 출력되지 않는다.
+  */
+
+</script>
+<body>
+  
+</body>
+</html>

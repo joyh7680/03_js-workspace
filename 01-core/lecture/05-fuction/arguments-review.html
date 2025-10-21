@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>arguments</title>
+</head>
+<script>
+  const argumentsTest = function(){
+    console.log(arguments);  //에러
+  }
+  argumentsTest(); //출력 : Arguments(0) 
+  //인자 없음 → arguments는 비어있는 객체처럼 출력됨.
+  argumentsTest('a','b','c'); // 출력 : Arguments(3)
+  //인자 3개 전달 → arguments에 모두 저장됨.
+</script>
+
+<body>
+  <!-- arguments는 영어에서 ‘논쟁’, ‘논거’, ‘논증’, ‘인수’ 등 다양한 의미로 사용되며, 문맥에 따라 해석이 달라집니다 -->
+   <!-- 인자 배열의 갯수가 출력된다 ' 고 이해하면 쉽겟다 ' -->
+</body>
+</html>

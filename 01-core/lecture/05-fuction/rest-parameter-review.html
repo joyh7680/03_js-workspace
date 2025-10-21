@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나머지 매개변수 (rest parameter)</title>
+</head>
+<script>
+  function restTest(...args){ ////함수 정의만 한 것
+    //...args (rest parameter) 문법은 함수에 들어온 모든 인자를 하나의 배열로 묶어줌
+    console.log(args); //error
+    console.log(Array.isArray(args));//error
+    //Array.isArray()는 전달된 값이 **배열(Array)**인지 확인하는 내장 함수
+    //반환값은 true/false 입니다.
+
+    for(let i=0; i<args.length; i++){  //함수 정의만 한 것
+      console.log(args[i]);//error
+    }
+  }
+  restTest(); //함수 호출, 빈 배열출력. 
+  /*출력
+ Array(0) 
+ true 
+ */
+restTest('a','b','c');   //인자 3개 전달 → args = ['a','b','c']
+  /*출력
+['a', 'b', 'c']     : console.log(args) → 배열 전체 출력
+ true               :console.log(Array.isArray(args)) → true
+ a                  :console.log(args[i]) → 각 요소 순서대로 출력
+ b
+ c
+ */
+
+</script>
+<body>
+  
+</body>
+</html>

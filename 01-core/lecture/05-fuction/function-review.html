@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>함수 선언식</title>
+</head>
+
+<script>
+
+hello('황지원');   //hello 함수가 먼저 등록됨.
+//hello('황지원') 실행.
+function hello(name) { //함수 hello가 호출되고, 매개변수 name에 '황지원'이 들어감.
+  console.log(`${name}님 환영합니다.`); //console.log가 실행되면서 템플릿 리터럴로 문자열을 출력.
+} //황지원님 환영합니다. 출력
+
+function hello(name){
+  console.log(`${name}님 안녕히 가세요`);
+} //황지원님 안녕히 가세요 출력
+
+hello('홍길동');
+/*
+같은 이름의 함수가 두 번 선언되면, 마지막 선언이 이전 선언을 덮어씁니다.
+출력:
+황지원님 안녕히 가세요
+홍길동님 안녕히 가세요
+
+*/
+
+hello(`김말똥`); //출력:김말똥님 안녕히 가세요
+hello(); //undefined님 안녕히 가세요 출력
+
+</script>
+
+<body>
+
+  <!-- <script src="../05-fuction/01_function.js" ></script> -->
+
+</script>
+</body>
+</html>

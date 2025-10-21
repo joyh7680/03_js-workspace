@@ -194,11 +194,11 @@ defaultTest(100);
 
 // 두 수를 전달받아 덧셈연산 후 결과를 반환 
 function sum(a, b){
-  console.log('덧셈연산 실행중...');
-  return a + b;
+  console.log('덧셈연산 실행중...'); 
+  return a + b; 
 }
 //console.log(sum(10, 20));
-const result = sum(10, 20);
+const result = sum(10, 20);  
 console.log(result);
 
 
