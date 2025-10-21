@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>4. 비동기 코드 리뷰 </title>
+  <title>4. 비동기</title>
 </head>
 <body>
   <!-- 
@@ -35,7 +35,32 @@
   <button id="sync-btn">동기</button>
   <button id="async-btn">비동기</button>
   <script>
-    document.querySe
+    //동기 
+    document.querySelector('#sync-btn').addEventListener('click', () => {
+      console.log("메인 작업시작");  
+      console.log("부가 작업 시작(무거운 작업)");
+      for(let i = 0; i < 100000000; i++) {}
+      console.log("부가 작업 종료(무거운 작업)");  
+      console.log("메인 작업 종료"); 
+    }); //부가 작업이 끝날 때까지 메인 작업도 기다려야 하는 동기적 실행
+
+    /* 출력
+     메인 작업시작
+    01-async.html:41 부가 작업 시작(무거운 작업)
+    01-async.html:43 부가 작업 종료(무거운 작업)
+    01-async.html:44 메인 작업 종료
+    */
+
+    //비동기
+    document.querySelector('#async-btn').addEventListener('click', () => {
+      console.log("메인 작업시작");   //1
+      setTimeout(() => { //setTimeout 으로 1초 뒤 실행될 콜백 함수 예약
+        console.log("부가 작업 시작(무거운 작업)");  //3 - "부가 작업 시작(무거운 작업)" 출력
+        for(let i = 0; i < 100000000; i++) {} // for 루프 실행
+        console.log("부가 작업 종료(무거운 작업)");  //4 -"부가 작업 종료(무거운 작업)" 출력
+      }, 1000); //1초 지연 후 콜백함수 실행 예약
+      console.log("메인 작업 종료");  //2
+    }); //메인 작업이 부가 작업을 기다리지 않고 바로 종료되고, 부가 작업은 예약된 시간 후 실행됩니다.
 
   </script>
 
@@ -44,14 +69,120 @@
   <h4>비동기 처리를 위한 콜백함수 사용해보기</h4>
   <button id="request-btn1">데이터 요청 후 후속작업1</button>
   <button id="request-btn2">데이터 요청 후 후속작업2</button>
+
+  <!-- <script>
+      document.querySelector('#request-btn1').addEventListener('click', () => {
+      console.log("메인 작업 시작");  //1
+      //setTimeout() 호출 → 0초 뒤 실행 예약 (즉시 실행이 아니라 콜백 큐에 등록)
+      setTimeout(() => {   // ③ (비동기 실행 예약) - 데이터 요청 시뮬레이션
+        const responseData = {name : "홍길동", age : 20} 
+        console.log(responseData.name);  // ④ 응답 데이터의 이름 출력
+        console.log("데이터 요청 및 후속 작업 완료"); 
+      }, 0); 
+      console.log("메인 작업 종료");  //2   
+    });
+      /* 출력
+      메인 작업 시작
+      메인 작업 종료
+      홍길동
+      데이터 요청 및 후속 작업 완료
+      */
+
+      /*
+      콜스택함수 먼저 실행하고 테스트큐 함수 실행 , 그래서 0초여도 콜스택함수 먼저 실행후에 setTimeout 함수 실행됨  
+      즉, 0초라도 setTimeout() 내부 코드는 콜스택이 비워진 뒤에 실행됨 → 이벤트 루프(Event Loop)의 원리 때문!
+      콜스택함수, 태스크 큐 함수 정의 찾아보기 ***
+      콜 스택 (Call Stack) : 현재 실행 중인 코드(함수)들이 쌓이는 곳
+      태스크 큐 (Task Queue) : 비동기 함수의 콜백들이 대기하는 곳
+      */
+
+    document.querySelector('#request-btn2').addEventListener('click', () => {
+       console.log("메인 작업 시작");  //1
+      setTimeout(() => {  // 데이터 요청 시뮬레이션
+        const responseData = {name : "홍길동", age : 20} 
+        // 응답된 데이터 (JSON 객체)    //3
+        // 후속 작업 - 응답 데이터의 나이 출력
+        console.log(responseData.age);
+      }, 0);
+       console.log("메인 작업 종료"); 
+    }); //위와 동일한 구조이지만, 이번에는 이름(name) 대신 나이(age) 를 출력. 
+      /*
+        콘솔 출력 순서:
+        메인 작업 시작
+        메인 작업 종료
+        20
+        */
+  </script> -->
+
   <script>
-    
+
+    document.querySelector('#request-btn1').addEventListener('click', () => {
+      console.log("메인 작업 시작"); 
+      //fetchData()로 콜백 전달 방식, 데이터 요청 시뮬레이션
+                //responseData => console.log(responseData.name) 이 부분이 바로 콜백 함수
+                // 즉, 데이터가 응답된 후에 실행될 함수를 직접 전달하는 것
+      fetchData( responseData => console.log(responseData.name) ); 
+      console.log("메인 작업 종료"); 
+    });
+
+    document.querySelector('#request-btn2').addEventListener('click', () => {
+      console.log("메인 작업 시작");  
+      fetchData( (responseData) => console.log(responseData.age) ); 
+      // 데이터 요청 시뮬레이션
+      console.log("메인 작업 종료"); 
+    });
+
+    //fetchData() 함수 정의
+    function fetchData(resolve) { // resolve : 각 상황별로 이핼시킬 함수 전달받기(콜백함수) 
+       // 1) setTimeout()으로 비동기 작업 예약
+      setTimeout(() => {
+         //2) 0초 뒤 실행될 때 responseData(데이터)를 생성
+        const responseData = {name : "홍길동", age : 20};
+         // 응답된 데이터 (JSON 객체) 
+       // 후속 작업 - 응답 데이터를 활용한 (상황에 따라 다름)
+       // 상황별로 이행 시킬 작업 내용이 다름 (단, 응답데이터는 동일하게 사용)
+
+       //3) 인자로 받은 resolve 함수(콜백)를 실행하면서 데이터를 전달
+      // → 결국, 전달받은 함수(console.log(responseData.name) 같은 것)가 실행됨
+       resolve(responseData);  // 전달받은 콜백 실행
+      }, 0); 
+    }
+
   </script>
 
-  <h4>순차적인 비동기 작업 처리 시 발생하는 콜백 지옥</h4>
+  <h4>순차적인 비동기 작업 처리 시 발생하는 콜백 지옥</h4>  
+  <!-- 콜백함수안에 콜백함수 계속 중첩되는 형태 -->
   <button id="request-btn3">데이터 요청 후 후속작업1, 2 순차적으로 수행</button>
   <script>
-    
+
+    document.querySelector("#request-btn3").addEventListener("click", () => {
+      console.log("메인 작업 시작");
+
+      //홍길동 사람 데이터 요청 -> 응답 -> 응답데이터 중 이름 먼저 출력 -> 나이 출력 
+      // 적절하지 않은 방법 => 잘 동작되는 듯 보여지지만 실제 순서를 보장하진 않음
+      /*
+      fetchData( responseData =>  console.log(responseData.name) );
+      fetchData( responseData =>  console.log(responseData.age) );
+      */
+
+      //순차실행을 보장하기 위해서 -> 콜백 안에 콜백을 넣어야됨 (콜백지옥)
+      //=> 가독성 매우 떨어짐 , 유지보수 어려움 , 디버깅 어려움
+     fetchData( (responseData) => { 
+        console.log(responseData.name);// 1) 이름 먼저 출력
+        // fetchData 다시 호출 -> 콜백함수 전달
+        fetchData( (responseData) => {
+         console.log(responseData.age)   // 2) - 나이 출력 
+         }); 
+      })
+      console.log("메인 작업 종료");
+    }); 
+    /*실행 순서
+      메인 작업 시작
+      메인 작업 종료
+      홍길동
+      20
+     */
+  
   </script>
 
   <hr>
@@ -76,7 +207,8 @@
           }
         });
       2) 비동기 작업의 결과값 처리 
-        promise.then((result) => {
+        promise
+        .then((result) => {
           // 성공시 실행될 함수
         }).catch((error) => {
           // 실패시 실행될 함수
@@ -90,18 +222,118 @@
   <h4>Promise 객체 사용하여 콜백지옥 개선</h4>
   <button id="promise-btn">데이터 요청 후 후속작업</button>
   <script>
+
+    // 1) addEventListener 등록
+    document.querySelector('#promise-btn').addEventListener('click', () => { 
+      //② 콘솔 출력: “메인 작업 시작”
+      console.log("메인 작업 시작");
+      //③ fetchDataByPromise() 호출
+      fetchDataByPromise()  // Promise 객체를 반환 : 함수가 실행된 후, Promise 형태의 결과물을 돌려준다
+      .then((responseData) => {   //Promise의 비동기 작업이 완료된 뒤 실행됨.
+        console.log("후속작업1");
+        console.log(responseData.name);
+        return responseData;  // then 메소드 안에서 다음 then 메소드로 데이터 전달하려면 return 사용 
+      }) 
+      // console.log("메인 작업 종료");
+      //새로운 Promise 객체 (첫번째 then 내부 콜백함수의 반환값으로 새로운 Promise 객체 생성됨)
+      .then((responseData) => {   // 앞에 then 메소드가 실행이 되면 그때 then 메소드 실행
+        console.log("후속작업2");
+        console.log(responseData.age); //위에서 return한 responseData를 그대로 전달받아 age 출력.
+      });
+
+      // 콜백지옥이랑 비교해서 보면됌 , 콜백지옥 개선 코드임
+      console.log("메인 작업 종료");
+    });
+    /*실제 실행 순서 (콘솔 로그)
+      메인 작업 시작
+      메인 작업 종료
+      후속작업1
+      홍길동
+      후속작업2
+      20
+    */
+
+    //데이터를 가져오는 함수 => Promise 객체 활용
+    function fetchDataByPromise() {   // 적는 순서 2
+      return new Promise((resolve) => {
+        //비동기 작업 시뮬레이션 - 데이터 요청
+        const responseData = {name : "홍길동", age : 20}; // 응답된 데이터 (JSON 객체)
+        resolve(responseData); // 작업 성공 시 이행 함수 호출 
+      } )
+    }
     
   </script>
 
   <hr>
+  <!-- Fake API  https://jsonplaceholder.typicode.com/  -->
 
   <h4>실제 HTTP 통신으로 데이터 요청해보기 - XMLHttpRequest + Promise 사용</h4>
   <button id="xhr-promise-btn">게시글 데이터 요청 후 게시글 총 수 화면에 출력</button>
   <div>게시글 수: <span id="post-count">0</span></div>
 
+  <!-- <form action="요청URL" method="요청방식(get/ post)" >
+    <button>제출</button>
+  </form> -->
+
   <script>
+    // document.querySelector('#xhr-promise-btn').addEventListener('click', () => {  //1) 버튼 클릭이벤트 작성
+    //   fetchDataByXMLHttpRequest()  //8 
+    //   .then((responseText) => {   
+    //     // console.log(responseText)
+    //     JSON.parse(responseText); //9) JSON 문자열 -> JS 객체로 변환
+    //   });
+    // });
+
+    /*  코드 작성 순서 
+    1) 이벤트핸들러 작성
+    2) function fetchDataByXMLHttpRequest() {  :  XHR로 데이터 요청하는 함수 작성
+    3) fetchDataByXMLHttpRequest() : 함수 호출
+    */
+
+     document.querySelector('#xhr-promise-btn').addEventListener('click', () => {  
+      //1) 버튼 클릭 → fetchDataByXMLHttpRequest() 호출 : 이 함수는 Promise 객체를 반환
+      fetchDataByXMLHttpRequest()  
+      // 2)  JSON.parse: 서버에서 받은 문자열(JSON)을 객체로 변환
+       .then((responseText) => JSON.parse(responseText)) 
+      //3) 실제 데이터 처리: 게시글 수를 화면에 출력 
+       .then((jsonData) => document.getElementById('#post-count').innerText = jsonData.length)
+      //4) 요청 실패 시 에러 처리 
+       .catch((status) => console.error("에러 발생! 상태 코드:", status))
+      })
+
+       function fetchDataByXMLHttpRequest() {
+      // 1 ) new Promise((resolve, reject) => { 
+      //    Promise 객체 생성
+      //    성공하면 resolve(data)
+      //    실패하면 reject(status) 호출
+      return new Promise((resolve, reject) => { 
+        
+        //2) XMLHttpRequest 객체 생성
+        const xhr = new XMLHttpRequest(); 
+
+        // xhr.open("요청방식", "요청URL"); 
+        xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts'); //GET 요청 준비 (jsonplaceholder에서 샘플 게시글 요청) 
+
+
+        // 3) load 이벤트 : 데이터 요청작업이 완료된 시점에 수행시킬 핸들러 등록
+        xhr.addEventListener('load', () => {
+          // HTTP 응답 상태 코드 확인 가능
+          // xhr.status => 200(성공), 404(찾을수없음), 500(서버오류) 등
+          // 요청이 완료되면 실행
+          if (xhr.status === 200) { // HTTP 상태 코드가 200이면 성공 → resolve 호출
+            resolve(xhr.responseText)  // =>  이행 함수로 응답 데이터 전달
+          }else { //  그렇지 않으면 실패 → reject 호출
+            reject(xhr.status); 
+          }
+        })
+        // 7) 요청 전송
+        xhr.send();
+      })
+    }
     
   </script>
+
+
 
   <!-- 
     📌 Fetch API
@@ -125,11 +357,31 @@
   <h4>실제 HTTP 통신으로 데이터 요청해보기 - Fetch API 사용</h4>
   <button id="fetch-btn">1번 게시글 데이터 요청 후 게시글의 제목 화면에 출력</button>
   <div>1번 게시글 제목: <span id="post-title"></span></div>
+
   <script>
-   
+    // 1) 버튼 클릭 시 실행되는 이벤트 등록
+    document.querySelector('#fetch-btn').addEventListener('click', () => {
+
+      /* 2) Fetch API 호출 
+      - Fetch API를 사용하여 URL에 GET 요청
+      - fetch()는 Promise 객체를 반환
+        즉, 비동기 요청 → 성공(resolve) / 실패(reject) 처리 가능
+      */
+      fetch("https://jsonplaceholder.typicode.com/posts/1")
+
+      //3) 1번째 then : fetch()의 반환 값은 Response 객체
+      // response.json() → Response 안의 JSON 데이터를 JS 객체로 변환
+      // response.json()도 Promise를 반환하기 때문에 다음 .then()으로 이어질 수 있음
+      .then((response) => response.json())
+
+      //4) 2번쨰 then : JSON 객체를 받아서 1번 게시글의 title 속성을 가져와 화면에 출력
+      .then((jsonData) => document.querySelector("#post-title").innerText = jsonData.title);
+    })
+    // 출력 : 1번 게시글 제목: sunt aut facere repellat provident occaecati excepturi optio reprehenderit
+
   </script>
 
-  <!-- 
+   <!-- 
     📌 async 함수와 await 문
     1. ES2017에 도입된 비동기 처리 문법
     2. 기존의 콜백과 Promise 체이닝(then)의 복잡함을 해결하기 위해 등장 
@@ -141,11 +393,33 @@
         document.getElementById('post-title').innerText = jsonData.title;
       }
   -->
-
   <h4>실제 HTTP 통신으로 데이터 요청해보기 - Fetch API + async/await 사용</h4>
   <button id="async-await-btn">1번 게시글 데이터 요청 후 게시글의 내용 화면에 출력</button>
   <div>1번 게시글 내용: <span id="post-content"></span></div>
+  
   <script>
+  
+  //  1) 버튼 클릭 이벤트 등록 - 버튼 클릭 시 fetchDataByAsyncAwait() 함수를 호출
+    document.querySelector('#async-await-btn').addEventListener('click', () => {
+      fetchDataByAsyncAwait();    
+    });
+
+     // 2) 비동기 함수 정의
+      //  async 붙이면 함수가 항상 Promise를 반환
+      // 내부에서 await를 사용해 비동기 처리를 동기 코드처럼 작성 가능
+    async function fetchDataByAsyncAwait() { 
+
+      // 3)fetch + await 
+      // fetch 함수 호출 → Promise 반환
+// await를 붙이면 Promise가 이행(resolve)될 때까지 기다림
+// 완료되면 Response 객체가 response 변수에 들어감
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts/1'); // 2) fetch함수 결과 === Promise 객체를 이행하는 promise 객체 반환
+      const jsonData = await response.json(); // 4) response.json() 결과 === json 데이터 이행하는 Promise 객체 반환 
+      //* await : 대기 상태
+      //await → JSON 문자열을 JS 객체로 변환 후 jsonData에 저장 
+      document.getElementById('post-content').innerText = jsonData.body; 
+
+    }
     
   </script>
 
