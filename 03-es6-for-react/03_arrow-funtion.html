@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03_arrow-funtion</title>
+</head>
+<body>
+  <script>
+    {
+      // const hi = 함수객체 
+
+      // 함수 표현식 
+
+      // ES5 
+       const hi = function() {
+        console.log('hi 함수입니다.');        
+       }
+
+       //ES6 - 화살표 함수 (arrow function)
+       const hello = () => {
+        console.log("안녕하세요!!")
+       }
+       /*
+       *화살표 함수
+       (매개변수) => {
+        실행구문1;
+        실행구문2;
+        [return 값;]
+        
+       }
+        */
+
+        //함수 선언식
+        /*
+       function bye(){
+
+       }
+       */
+    }
+    {
+      // * 실행 구문의 차이
+      // - 실행 구문이 여러개라면 반드시 {} 필요
+      const multiLine = () => {
+        console.log('실행구문1');
+        console.log('실행구문2');
+      };
+
+      // - 실행 구문이 1개라면 {} 생략 가능
+      const singleLine = () => console.log('실행구문1');
+    }
+
+    {
+    //* 매개변수의 개수의 차이
+    // - 매개변수가 없거나 여러개일 경우 () 필수 작성
+    const hi = () => console.log('hi');
+    const hello = (name, age) => console.log(`이름: ${name}, 나이: ${age}`);
+    //- 매개변수가 1개일 경우 () 생략 가능
+    const welcome = name => console.log(`환영합니다. ${name}님`);
+    }
+
+    //생략 가능한 경우를 계속 보여주는 코드임
+
+    {
+    //* 반환값의 차이
+    // - 다른 실행문과 함께 반환값이 존재할 경우 {} 필수 작성
+    const hi = () => {
+      console.log('hi');
+      return '안녕!';
+    };
+
+    // - 별도의 실행문 없이 곧바로 특정 값을 반환하는 경우 {}, return 생략 가능
+    const hello = () => "안녕";
+    
+    }
+  </script>
+  
+</body>
+</html>
