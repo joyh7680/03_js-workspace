@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // class문법 es6 도입 
+    {
+      //객체 생성 방법1. 객체 리터럴 {}
+      const person = {
+        name: "홍길동",
+        age: 20,
+        getInfo: function(){
+          return `${this.name}은(는) ${this.age}세 입니다.`;
+        }
+      }
+
+      console.log(person);
+      /*출력
+      {
+        "name": "홍길동",
+        "age": 20}
+        */
+      console.log(person.name); //홍길동 출력
+      console.log(person.getInfo()); //홍길동은(는) 20세 입니다. 출력
+    }
+
+    {
+      //*객체 생성 방법2. 생성자 함수
+       // new Person("xxx", xx)
+      function Person(name, age){
+        //일반 프로퍼티
+        this.name = name;
+        this.age = age;
+        //메소드
+        this.getInfo = function(){
+          return `${this.name}은(는) ${this.age}세 입니다.`;
+        }
+      }
+        const person1 = new Person("홍길동", 20);
+        const person2 = new Person("김말순", 30);
+
+        console.log(person1); // Person {name: '홍길동', age: 20, getInfo: ƒ} 출력
+        console.log(person1.getInfo()); // 홍길동은(는) 20세 입니다. 출력
+        console.log(person2); //Person {name: '김말순', age: 30, getInfo: ƒ} 출력 
+        console.log(person2.getInfo()); //김말순은(는) 30세 입니다. 출력 
+    }
+
+    {
+      //* 객체 생성방법3. class(ES6) 활용
+      class Person {
+        //생성자 정의
+        constructor(name, age){
+          this.name = name;
+          this.age = age;
+        }
+
+        //메소드 정의  :  getInfo(){} => 표현법
+        getInfo(){
+          return `${this.name}은(는) ${this.age}세 입니다.`;
+        }
+      }
+
+      const person1 = new Person("홍길동", 20); //생성자 실행됌
+      console.log(person1);  // Person {name: '홍길동', age: 20, getInfo: ƒ} 출력
+      console.log(person1.getInfo()); // 홍길동은(는) 20세 입니다. 출력
+
+      //**class문법을 활용한 상속
+      //Person 클래스를 상속받는 Student 클래스 정의
+      class Student extends Person {
+        constructor(name, age, dream){
+          super(name, age); //super() ==> 부모클래스의 생성자 호출
+          this.dream = dream; 
+        }
+        study() {
+          return `${this.name}은(는) ${this.dream}을 위해 공부중입니다.`
+        }
+      }
+
+      const student = new Student("김말똥", 27, "리액트 개발자");
+      console.log(student);   // { "name": "김말똥", "age": 27, "dream": "리액트 개발자"} 
+
+      console.log(student.study()); 
+      console.log(student.getInfo()); 
+    }
+  </script>
+  
+</body>
+</html>

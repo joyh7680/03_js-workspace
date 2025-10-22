@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> js 수업 - 구조 분해 할당 251022</title>
+</head>
+<body>
+  <script>
+    {
+      // * 배열 구조분해 할당
+
+      const fruits = ["apple", "banana", "kiwi"];
+      //0번 인덱스를 자주 사용할때 
+      // 내가 원하는 특정 위치의 인덱스를 변수같은데에 설정 - 개별 변수 
+
+      /* 직접 대입한 방식이지 구조분해할당은 아님
+      const a = fruits[0];
+      const b = fruits[1];
+      const c = fruits[2]; 
+      */
+
+      // 구조분해할당 ㅇ 
+      const [a, b, c] = fruits;
+      console.log(a,b,c); //apple banana kiwi 출력
+    }
+
+    {
+ 
+
+      const vehicles = ["mustang", "f-150", "expedition"];
+      const [car, ,suv] = vehicles; //일부 요소 생략 가능
+      console.log(car, suv); //mustang expedition 출력
+
+      //나머지 연산자 : 나머지 배열들을 ...로 한번에 정의가능
+      const [sportscar,...cars] = vehicles;
+      console.log(sportscar, cars); //mustang (2) ['f-150', 'expedition'] 출력됌
+    }
+
+    {
+      //함수에서 다수의 데이터 반환
+      function calc(a, b){
+        const add = a + b;
+        const subtract = a - b;
+        const multiply = a * b;
+        const divide = a / b;
+        
+        return [add, subtract, multiply, divide];
+      }
+    }
+
+    {
+      const [add, sub, mul, div] = calc(4, 7);
+      console.log(add, sub, mul, div); //11 -3 28 0.5714285714285714 출력
+    }
+
+    {
+      //* 객체{} 구조 분해 할당
+      const car = {
+        /*
+        속섬명: 속성값,
+        key: value,
+        ... 
+        */
+       maker : "bmw",
+       model: "X3",
+       year: 2025
+
+      };
+
+      /*
+      구조분해할당x
+      const ma = car.maker;
+      const mo = car.model;
+      const ye = car.year;
+      */
+
+      //순서가 중요하지 않음 , property명을 써줘야함
+      const {model, maker, year} = car;  
+      console.log(maker, model, year); //bmw X3 2025 출력 
+
+      const qna = {
+        q: "한국의 수도는?",
+        a: "서울"
+      };
+
+      const {q: question, a: answer} = qna; //변수명을 속성명이 아닌 다른이름으로 담고자 할때 
+      console.log(question, answer); //한국의 수도는? 서울 출력
+
+      /*
+      function myCarInfo(mycar){ //mycar == {maker:xx, model:xx, year:xx}
+        const message = `My Car is ${macar.maker} ${mycar.model}`;
+        console.log(message);
+      }
+      */
+      /*
+      function myCarInfo(mycar) {
+         const {mycar, model} = mycar; //구조분해할당 => maker = xxx, model= xxx
+         const message = `My Car is ${maker} ${model}`;
+         console.log(message); 
+      }
+      */
+
+      //코드 줄이기
+        function myCarInfo({mycar, model}) {//구조분해할당
+         const message = `My Car is ${maker} ${model}`;
+         console.log(message); //My Car is bmw X3 출력
+      }
+
+      myCarInfo(car);
+
+    }
+  </script>
+  
+</body>
+</html>

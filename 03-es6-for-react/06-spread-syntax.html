@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js 수업 251022 </title>
+</head>
+<body>
+  <script>
+    {
+      //** 배열에서의 전개구문
+      const nums = [1,2,3,4,5];
+      console.log(nums); //[1,2,3,4,5] 출력
+      console.log(...nums); //1 2 3 4 5
+      //... 이 가로를 벗겨버림
+
+      //배열 연결
+      const newNums = [...nums, 6, 7, 8, 9, 10];
+      console.log(newNums); //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 출력 
+      console.log(nums); //[1, 2, 3, 4, 5] 출력 
+
+      //배열 병합
+      const arr1 = [1,2,3];
+      const arr2 = [4,5,6];
+      const newArr = [...arr1, ...arr2]
+    }
+
+    {
+      //* 객체에서의 전개구문
+      const user = {
+        name: "홍길동",
+        age: 20,
+        address: "서울시 강남구"
+      };
+
+      //객체 복사 및 연결
+      const newUser = {
+        ...user,
+        dream: "프론트엔드 개발자",
+        hobby:"프로그래밍"
+      };
+      console.log(newUser);
+      /* 출력
+      {
+          "name": "홍길동",
+          "age": 20,
+          "address": "서울시 강남구", "dream": "프론트엔드 개발자", "hobby": "프로그래밍"
+      }
+     */
+
+     //객체 병합
+     const myVehicle = {
+      brand: 'ford',
+      model: 'mustang',
+      color: 'red'
+     };
+     const updateVehicle = {
+      type: 'car',
+      color: 'yellow'
+     }; 
+
+     const myUpdateVehicle = {
+      //객체 리터럴 타입 필요
+      ...myVehicle, //객체 분해
+
+      ...updateVehicle
+     }
+      console.log(myUpdateVehicle); 
+      /* 출력
+            {
+          "brand": "ford",
+          "model": "mustang",
+          "color": "yellow",   //제일 마지막으로 덮어씌워진 값으로 나옴
+          "type": "car"
+      }   */
+
+      //기존 객체의 일부 프로퍼티는 유지하면서 특정 값 변경
+      const car = {
+        brand: "BMW",
+        model: "X3",
+        color: "black"
+      };
+
+      const newCar = {
+        ...car, 
+        model : "X5"
+      };
+      console.log(newCar); // 출력 : { "brand": "BMW","model": "X5",   "color": "black"}
+
+    }
+  </script>
+  
+</body>
+</html>

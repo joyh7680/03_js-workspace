@@ -3,10 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>251022 js 수업</title>
 </head>
 <body>
   <!-- 01array-higher-order-mothod.js 참고  -->
+   <script>
+    {
+      //* filter : 요소들 필터링 걸러줄때
+      const nums = [12 ,5 ,90, 45 ,1, 18, 2, 9];
+
+      //nums로부터 짝수인 데이터들만 담긴 배열 취득 
+      // 전달해야할 인자 = 함수 
+      // nums.filter((num)=> num % 2 === 0 ) 
+      // [12, 90, 18, 2] 새로운 배열에 차곡차곡 담겨지는 것 
+      const evenNums = nums.filter((num)=> num % 2 === 0 ) 
+    }
+
+    {
+      // * map : 각 요소들 가공처리 (많이 사용)
+      const seasons = ["봄", "여름", "가을", "겨울"];
+
+      //seasons 배열의 요소들을 div 요소로 만들어 담긴 배열 취득 
+      //두번째 인자값 : 몇번째 인덱스값
+      //season, idx : 매개변수 
+      //  seasons.map((season, idx)=> `<div>${season}</div>`) // [`<div>봄</div>`]
+      const seasonElement =  seasons.map((season, idx)=> `<div>${season}</div>`)
+      /*출력
+      [
+          "<div>봄</div>",
+          "<div>여름</div>",
+          "<div>가을</div>",
+          "<div>겨울</div>"
+      ]*/
+    }
+    
+
+   </script>
   
 </body>
 </html>
